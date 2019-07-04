@@ -4,7 +4,7 @@
 - [Line Developers](https://developers.line.biz/)
 - [Heroku](https://www.heroku.com/)
 
-# Run
+# Deployment
 
 Step 1. Open **main.py** and modify the two main variables provided by **Line Developers**
 
@@ -15,6 +15,8 @@ Step 2. Choose one of deployment methods provided by **Heroku** and follow its i
 
 ![Heroku deployment methods](heroku_deployment_methods.png)
 
+Step 3. Add your LINE bot as a friend - enjoy it!
+
 # Troubleshooting
 
 - Q: Heroku logs show "at=error code=H14 desc="No web processes running"
@@ -22,5 +24,6 @@ Step 2. Choose one of deployment methods provided by **Heroku** and follow its i
 
       heroku ps:scale web=1
 
-# Data source
+# Exchange rate data source
+
 - [即匯站](https://tw.rter.info/)
