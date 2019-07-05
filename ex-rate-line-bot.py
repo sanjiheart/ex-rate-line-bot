@@ -7,7 +7,8 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, StickerMessage, StickerSendMessage
+    MessageEvent, TextMessage, TextSendMessage, StickerMessage, StickerSendMessage,
+    ImageMessage, VideoMessage, AudioMessage, LocationMessage
 )
 
 import requests
@@ -48,17 +49,8 @@ def callback():
     return 'OK'
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    print(event)
-    if event.message.text == "幹":
-        reply_text_and_sticker(event.source.user_id, "幹屁幹？硍！", 52114135)
-    elif event.message.text == "嫩":
-        reply_text_and_sticker(event.source.user_id, "你才嫩！你全家都嫩！", 52114135)
-    elif event.message.text == "靠":
-        reply_text_and_sticker(event.source.user_id, "無薪還得挨罵，還不能罷工QQ", 52114126)
-    elif event.message.text == "肏" or event.message.text == "操":
-        reply_text_and_sticker(event.source.user_id, "別這樣嘛～人家會害羞>///<", 52114132)
-    else:
+def handle_text_message(event):
+    if not handle_swear_word(event.source.user_id, event.message.text):
         if event.source.user_id not in user_preferences:
             user_preferences[event.source.user_id] = {"bank": "台新銀行", "ccy": "JPY"}
         # split to option and option value
@@ -110,11 +102,24 @@ def handle_message(event):
                     event.reply_token,
                     TextSendMessage(text=reply_message))
 
-# ref: https://developers.line.biz/media/messaging-api/sticker_list.pdf
-@handler.add(MessageEvent, message=StickerMessage)
-def handle_message(event):
+def handle_swear_word(user_id, swear_word):
+    if swear_word == "幹":
+        reply_text_and_sticker(user_id, "幹屁幹？硍！", 52114135)
+    elif swear_word == "嫩":
+        reply_text_and_sticker(user_id, "你才嫩！你全家都嫩！", 52114135)
+    elif swear_word == "靠":
+        reply_text_and_sticker(user_id, "無薪還得挨罵，還不能罷工QQ", 52114126)
+    elif "肏" in swear_word  or swear_word == "操":
+        reply_text_and_sticker(user_id, "別這樣嘛～人家會害羞>///<", 52114132)
+    else:
+        return False
+    return True
+
+@handler.add(MessageEvent, message=(StickerMessage, ImageMessage, VideoMessage, AudioMessage, LocationMessage))
+def handle_other_messages(event):
     reply_text_and_sticker(event.source.user_id, "需要協助請輸入【help】哦～", 52114118)
 
+# ref: https://developers.line.biz/media/messaging-api/sticker_list.pdf
 def reply_text_and_sticker(user_id, text, sticker_id):
     line_bot_api.push_message(
         user_id,
