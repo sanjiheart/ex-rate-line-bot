@@ -6,20 +6,25 @@ I am a **Traditional Chinese** exchange rate Line bot.
 
 - [Python 3](https://www.python.org/download/releases/3.0/)
 - [Line Developers](https://developers.line.biz/)
+- [MongoDB](https://www.mongodb.com/)
 - [Heroku](https://www.heroku.com/)
 
 ## Deployment
 
-Step 1. Open **ex-rate-line-bot.py** and modify the two main variables provided by **Line Developers**
+Step 1. Open **main.py** and modify the two main variables provided by **Line Developers**
 
 	line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
 	handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+
+Step 2. Open **preferences.py** and modify a main variable
+
+	self.client = MongoClient("YOUR_MONGODB_CONNECTION_STRING")
 	
-Step 2. Choose one of deployment methods provided by **Heroku** and follow its instructions
+Step 3. Choose one of deployment methods provided by **Heroku** and follow its instructions
 
 ![Heroku deployment methods](heroku_deployment_methods.png)
 
-Step 3. Add your LINE bot as a friend - enjoy it!
+Step 4. Add your LINE bot as a friend - enjoy it!
 
 ## Troubleshooting
 

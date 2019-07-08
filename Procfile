@@ -1,1 +1,1 @@
-web: gunicorn -w 1 ex-rate-line-bot:app
+web: gunicorn -w 1 main:app
